@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>모바일 초대장</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        /* 초대장 통 이미지 컨테이너 */
+        .invitation-container {
+            width: 100%;
+            height: auto;
+            position: relative;
+            padding-bottom: 80px; /* 고정 버튼 영역 높이만큼 여백 추가 */
+        }
+        .invitation-image {
+            width: 100%;
+            display: block;
+            height: auto;
+        }
+
+        /* 하단 고정 버튼 영역 */
+        .fixed-buttons {
+            position: fixed; /* 화면에 고정 */
+            bottom: 0; /* 화면 하단에 배치 */
+            width: 100%;
+            background-color: #fff; /* 버튼 배경색 */
+            display: flex; /* 버튼을 가로로 정렬 */
+            justify-content: space-around; /* 버튼 사이 여백 균등 분배 */
+            align-items: center;
+            height: 80px; /* 버튼 영역 높이 */
+            box-shadow: 0 -2px 5px rgba(0,0,0,0.1); /* 그림자 효과 */
+        }
+        .fixed-buttons a {
+            flex: 1; /* 각 링크가 동일한 너비를 가짐 */
+            text-align: center;
+            text-decoration: none; /* 밑줄 제거 */
+        }
+        .fixed-buttons img {
+            width: 270px; /* 버튼 아이콘 크기 */
+            height: 160px;
+            display: block;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+  <script>
+    window.onload = function() {
+        var invitationImage = document.querySelector('.invitation-image');
+        var originalWidth = 1080; // Figma에서 작업한 이미지의 원래 너비 (보통 1080px)
+
+        function resizeImageMap() {
+            var currentWidth = invitationImage.clientWidth;
+            var ratio = currentWidth / originalWidth;
+
+            var areas = document.querySelectorAll('map[name="invitation-map"] area');
+            areas.forEach(function(area) {
+                var coords = area.getAttribute('data-coords').split(',').map(Number);
+                var newCoords = coords.map(function(coord) {
+                    return Math.round(coord * ratio);
+                });
+                area.coords = newCoords.join(',');
+            });
+        }
+
+        // 초기 로딩 시 좌표 조정
+        resizeImageMap();
+
+        // 화면 크기 변경 시 좌표 재조정
+        window.addEventListener('resize', resizeImageMap);
+    };
+</script>
+
+    <div class="invitation-container">
+        <img src="your-invitation-image.png" alt="모바일 초대장" class="invitation-image">
+    </div>
+
+    <div class="fixed-buttons">
+        <a href="tel:051-851-1854">
+            <img src="btn1.png" alt="전화 걸기">
+        </a>
+        
+        <a href="sms:010-9026-1854">
+            <img src="btn2.png" alt="휴대폰 걸기">
+        </a>
+
+        <a href="https://qr.kakao.com/talk/n4VZORWhbjcQyddC8KfLr1BODr0-" target="_blank">
+            <img src="btn3.png" alt="카카오톡 보내기">
+        </a>
+        
+        <a href="https://map.naver.com/p/search/%EB%B6%80%EC%82%B0%20kbs%ED%99%80" target="_blank">
+    <img src="btn4.png" alt="오시는 길">
+        </a>
+    </div>
+
+</body>
+</html>
